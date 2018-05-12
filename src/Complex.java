@@ -19,7 +19,7 @@
  *******************************************************************************
  **/
 
-import  java.lang.Math.sqrt;
+import  java.lang.Math;
 
 
 public class Complex
@@ -85,29 +85,29 @@ public class Complex
     /**
      *  Computes and returns the magnitude of the complex number
      *
-     *  @return Complex   Value of the magnitude of the complex number
+     *  @return new Complex   Value of the magnitude of the complex number
      *
      **/
     public Complex mag()
     {
-        return Complex(sqrt(img * img + real * real), 0);
+        return new Complex(Math.sqrt(img * img + real * real), 0);
     }
 
     /**
      *  Computes and returns the conjugate of the complex number
      *
-     *  @return Complex   Value of the complex number's conjugate
+     *  @return new Complex   Value of the complex number's conjugate
      *
      **/
     public Complex conj()
     {
-        return Complex(-img, real);
+        return new Complex(-img, real);
     }
 
     /**
      *  Compute and returns the sum of this and another complex number
      *
-     *  @return Complex     Value of addition operation
+     *  @return new Complex     Value of addition operation
      *
      **/
     public Complex add(Complex a)
@@ -119,7 +119,7 @@ public class Complex
      *  Compute and returns the difference of this and another complex 
      *  number
      *
-     *  @return Complex     Value of subtraction operation
+     *  @return new Complex     Value of subtraction operation
      *
      **/
     public Complex sub(Complex a)
@@ -130,7 +130,7 @@ public class Complex
     /**
      *  Compute and returns the product of this and another complex number
      *
-     *  @return Complex     Value of multiplication operation
+     *  @return new Complex     Value of multiplication operation
      *
      **/
     public Complex mul(Complex a)
@@ -143,32 +143,46 @@ public class Complex
     /**
      *  Compute and returns the product of this and another complex number
      *
-     *  @return Complex     Value of division operation
+     *  @return new Complex     Value of division operation
      *
      **/
     public Complex div(Complex a)
     {
-        return new Complex(this.img - a.img, this.real - a.real);
+        return (new Complex(this.img/(-1.0 * ), this.real));
     }
 
     /**
      *  @Return String      String representation of the complex number
      *
      **/
-    @Override
     public String toString()
     {
-        return String.format("%d %di", real, img);
+        return String.format("%f %fi", real, img);
     }
 
     /**
      *  @Return boolean     Whether or not the two complex numbers are equal
      *
      **/
-    @Override
     public boolean equals(Complex a)
     {
         return (this.img == a.img) && (this.real == a.real);
     }
+
+    /*
+    public static void main(String[] args)
+    {
+        Complex b = new Complex(-1.0,0.0);
+        Complex c = new Complex(0.0,-1.0);
+
+        System.out.println(a);
+        System.out.println(b.conj());
+        System.out.println(c.mag());
+        System.out.println(a.add(b));
+        System.out.println(a.mul(b));
+        System.out.println(a.div(c));
+        System.out.println(a.sub(c));
+    }
+    //*/
 
 }
