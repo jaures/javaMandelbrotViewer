@@ -90,7 +90,7 @@ public class Complex
      **/
     public Complex mag()
     {
-        return new Complex(Math.sqrt(img * img + real * real), 0);
+        return new Complex(0, Math.sqrt(img * img + real * real));
     }
 
     /**
@@ -141,14 +141,15 @@ public class Complex
     }
 
     /**
-     *  Compute and returns the product of this and another complex number
+     *  Compute and returns the quotient of this and another complex number
      *
      *  @return new Complex     Value of division operation
      *
      **/
     public Complex div(Complex a)
     {
-        return (new Complex(this.img/(-1.0 * ), this.real));
+        return new Complex(this.img / a.mag().real, 
+                            this.real / a.mag().real);
     }
 
     /**
