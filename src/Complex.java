@@ -137,7 +137,7 @@ public class Complex
     {
         return new Complex(
                 this.img * a.real + this.real * a.img,
-                this.img * a.img + this.real * a.real);
+                this.real * a.real - this.img * a.img);
     }
 
     /**

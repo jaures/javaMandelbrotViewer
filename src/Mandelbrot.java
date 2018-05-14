@@ -28,7 +28,7 @@ public class Mandelbrot
     private double  zoomFactor;
     private double  unit;
     private Complex center;
-    private final double RANGE  =   4.0;
+    private double range  =   4.0;
 
     /**
      *  Default Constructor that takes in 3 parameters to produce the viewport
@@ -48,7 +48,7 @@ public class Mandelbrot
     public Mandelbrot(int dim, double zoom, Complex center, int stepLimit)
     {
         this.dim    = dim;
-        this.unit   = RANGE / dim;
+        this.unit   = range / dim;
         this.zoom   = zoom;
         this.zoomFactor = zoom;
         this.stepLimit  = stepLimit;
@@ -59,21 +59,30 @@ public class Mandelbrot
 
     }
 
+    public void mvCenter(int i, int r)
+    {
+        center = new Complex(center.getImg() + i * unit, 
+                                center.getReal() + r * unit);
+    }
+
     public void zoomGrid()
     {
-        zoom *= zoomFactor;
-        unit   = RANGE * zoom / dim;
+        zoom    *= zoomFactor;
+        range   *= zoomFactor; 
+        unit     = range / dim;
     }
 
     public void computeGrid()
     {
         Complex c,z;
+ //       System.out.println(this.center);
         for(int i = 0; i < dim; i++)
         {
             for(int j = 0; j < dim; j++)
             {
                 grid[i][j]  = getStep(
-                        (new Complex(2.0 - i * unit, j * unit - 2)).sub(center));
+                        (new Complex((dim/2 - i) * unit, 
+                                     (5 * dim/8 - j) * unit)).sub(center));
             }
         }
 
@@ -88,11 +97,10 @@ public class Mandelbrot
 
         while(z.mag().getReal() < 2 && iter < stepLimit)
         {
-            z = z.mul(z).add(c);
+            z = z.mul(z).sub(c);
 
             if(z.mag().getReal() == 0)
-                break;
-
+                return 0;
             iter++;
         }
 
@@ -112,7 +120,7 @@ public class Mandelbrot
         {
             for(int j = 0; j < dim; j++)
             {
-                str += String.format("%05d ",grid[i][j]);
+                str += String.format("%04d ",grid[i][j]);
             }
 
             str += "\n";
@@ -121,7 +129,7 @@ public class Mandelbrot
         return str;
     }
 
-    ///*
+    /*
     public static void main(String[] args)
     {
         Mandelbrot m = new Mandelbrot(8, 0.65, new Complex(0,0), 16);
