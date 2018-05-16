@@ -19,6 +19,9 @@
  *******************************************************************************
  **/
 
+import  java.math.BigDecimal;
+import  java.math.MathContext;
+
 public class Mandelbrot
 {
     private int[][] grid;
@@ -61,8 +64,9 @@ public class Mandelbrot
 
     public void mvCenter(int i, int r)
     {
-        center = new Complex(center.getImg() + i * unit, 
-                                center.getReal() + r * unit);
+        center = new Complex(center.getImg().add(new BigDecimal(i * unit)), 
+                                center.getReal().add(new BigDecimal(r * unit)));
+        System.out.println("Moved: " + i + "," + r);
     }
 
     public void zoomGrid()
@@ -81,8 +85,8 @@ public class Mandelbrot
             for(int j = 0; j < dim; j++)
             {
                 grid[i][j]  = getStep(
-                        (new Complex((dim/2 - i) * unit, 
-                                     (5 * dim/8 - j) * unit)).sub(center));
+                        (new Complex(new BigDecimal((dim/2 - i) * unit), 
+                            new BigDecimal((5 * dim/8 - j) * unit))).sub(center));
             }
         }
 
@@ -95,11 +99,12 @@ public class Mandelbrot
 
         Complex z = new Complex(c.getImg(), c.getReal());
 
-        while(z.mag().getReal() < 2 && iter < stepLimit)
+        while(z.mag().getReal().compareTo(new BigDecimal(2)) < 0
+                && iter < stepLimit)
         {
             z = z.mul(z).sub(c);
 
-            if(z.mag().getReal() == 0)
+            if(z.mag().getReal().equals(BigDecimal.ZERO))
                 return 0;
             iter++;
         }

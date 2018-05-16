@@ -40,7 +40,7 @@ public class MandelbrotApp extends Application
 {
     private Mandelbrot mand;
     private Color[][] colorGrid;
-    private final int DIM = 240;
+    private final int DIM = 100;
 
     ///*
     public static void main(String[] args)
@@ -65,7 +65,7 @@ public class MandelbrotApp extends Application
 
     public void init()
     {
-        mand = new Mandelbrot(DIM, 0.85, new Complex(0, 0), 32);
+        mand = new Mandelbrot(DIM, 0.85, new Complex(0, 0), 5);
         colorGrid = new Color[DIM][DIM];
 
     }
@@ -90,27 +90,32 @@ public class MandelbrotApp extends Application
         cv.setFocusTraversable(true);
         cv.setOnKeyPressed(e ->
             {
+                System.out.println(e.getCode());
                 switch(e.getCode())
                 {
                     case UP:
                         System.out.println("UP");
-                        mand.mvCenter(16,0);
-                paintGrid(cv.getGraphicsContext2D());
+                        mand.mvCenter(-16,0);
+                        mand.computeGrid();
+                        paintGrid(cv.getGraphicsContext2D());
                         break;
                     case RIGHT:
                         System.out.println("RIGHT");
                         mand.mvCenter(0,16);
-                paintGrid(cv.getGraphicsContext2D());
+                        mand.computeGrid();
+                        paintGrid(cv.getGraphicsContext2D());
                         break;
                     case DOWN:
                         System.out.println("DOWN");
-                        mand.mvCenter(-16,0);
-                paintGrid(cv.getGraphicsContext2D());
+                        mand.mvCenter(16,0);
+                        mand.computeGrid();
+                        paintGrid(cv.getGraphicsContext2D());
                         break;
                     case LEFT:
                         System.out.println("LEFT");
                         mand.mvCenter(0,-16);
-                paintGrid(cv.getGraphicsContext2D());
+                        mand.computeGrid();
+                        paintGrid(cv.getGraphicsContext2D());
                     case SPACE:
                         mand.computeGrid();
                 paintGrid(cv.getGraphicsContext2D());

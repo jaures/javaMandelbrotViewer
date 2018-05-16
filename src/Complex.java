@@ -20,12 +20,14 @@
  **/
 
 import  java.lang.Math;
+import  java.math.BigDecimal;
+import  java.math.MathContext;
 
 
 public class Complex
 {
-    private double img;
-    private double real;
+    private BigDecimal img;
+    private BigDecimal real;
 
     /**
      *  Default Constructor
@@ -35,6 +37,12 @@ public class Complex
      *
      **/
     public Complex(double img, double real)
+    {
+        this.img    = new BigDecimal(img, new MathContext(64));
+        this.real   = new BigDecimal(real, new MathContext(64));
+    }
+    
+    public Complex(BigDecimal img, BigDecimal real)
     {
         this.img    = img;
         this.real   = real;
@@ -46,7 +54,7 @@ public class Complex
      *  @param  img     Value to set the imaginary component
      *
      **/
-    public void setImg(double img)
+    public void setImg(BigDecimal img)
     {
         this.img = img;
     }
@@ -55,7 +63,7 @@ public class Complex
      *  Set the imaginary component of the complex number
      *
      **/
-    public void setReal(double real)
+    public void setReal(BigDecimal real)
     {
         this.real = real;
     }
@@ -63,10 +71,10 @@ public class Complex
     /**
      *  Get the imaginary component of the complex number
      *
-     *  @return double img      Value of the imaginary component
+     *  @return BigDecimal img      Value of the imaginary component
      *
      **/
-    public double getImg()
+    public BigDecimal getImg()
     {
         return this.img;
     }
@@ -74,10 +82,10 @@ public class Complex
     /**
      *  Get the real component of the complex number
      *
-     *  @return double real     Value of the imaginary component
+     *  @return BigDecimal real     Value of the imaginary component
      *
      **/
-    public double getReal()
+    public BigDecimal getReal()
     {
         return this.real;
     }
@@ -90,7 +98,7 @@ public class Complex
      **/
     public Complex mag()
     {
-        return new Complex(0, Math.sqrt(img * img + real * real));
+        return new Complex(BigDecimal.ZERO, img.multiply(img).add(real.multiply(real)));
     }
 
     /**
@@ -101,7 +109,7 @@ public class Complex
      **/
     public Complex conj()
     {
-        return new Complex(-img, real);
+        return new Complex(img.negate(), real);
     }
 
     /**
@@ -112,7 +120,7 @@ public class Complex
      **/
     public Complex add(Complex a)
     {
-        return new Complex(this.img + a.img, this.real + a.real);
+        return new Complex(this.img.add(a.img), this.real.add(a.real));
     }
 
     /**
@@ -124,7 +132,7 @@ public class Complex
      **/
     public Complex sub(Complex a)
     {
-        return new Complex(this.img - a.img, this.real - a.real);
+        return new Complex(this.img.subtract(a.img), this.real.subtract(a.real));
     }
 
     /**
@@ -136,8 +144,8 @@ public class Complex
     public Complex mul(Complex a)
     {
         return new Complex(
-                this.img * a.real + this.real * a.img,
-                this.real * a.real - this.img * a.img);
+                this.img.multiply(a.real).add(this.real.multiply(a.img)),
+                this.real.multiply(a.real).subtract(this.img.multiply(a.img)));
     }
 
     /**
@@ -148,8 +156,8 @@ public class Complex
      **/
     public Complex div(Complex a)
     {
-        return new Complex(this.img / a.mag().real, 
-                            this.real / a.mag().real);
+        return new Complex(this.img.divide(a.mag().real, new MathContext(4)),
+                           this.real.divide(a.mag().real, new MathContext(4)));
     }
 
     /**
@@ -167,23 +175,6 @@ public class Complex
      **/
     public boolean equals(Complex a)
     {
-        return (this.img == a.img) && (this.real == a.real);
+        return (this.img.equals(a.img)) && (this.real.equals(a.real));
     }
-
-    /*
-    public static void main(String[] args)
-    {
-        Complex b = new Complex(-1.0,0.0);
-        Complex c = new Complex(0.0,-1.0);
-
-        System.out.println(a);
-        System.out.println(b.conj());
-        System.out.println(c.mag());
-        System.out.println(a.add(b));
-        System.out.println(a.mul(b));
-        System.out.println(a.div(c));
-        System.out.println(a.sub(c));
-    }
-    //*/
-
 }
