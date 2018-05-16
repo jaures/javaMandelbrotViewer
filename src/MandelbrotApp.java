@@ -65,7 +65,7 @@ public class MandelbrotApp extends Application
 
     public void init()
     {
-        mand = new Mandelbrot(DIM, 0.85, new Complex(0, 0), 5);
+        mand = new Mandelbrot(DIM, 0.85, new Complex(0, 0), 8);
         colorGrid = new Color[DIM][DIM];
 
     }
